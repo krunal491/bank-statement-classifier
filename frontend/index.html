@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='13' width='4.5' height='8' rx='1.2' fill='%230f766e' opacity='.55'/%3E%3Crect x='9.75' y='8' width='4.5' height='13' rx='1.2' fill='%230f766e' opacity='.8'/%3E%3Crect x='16.5' y='3' width='4.5' height='18' rx='1.2' fill='%230f766e'/%3E%3C/svg%3E"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101917" />
+    <title>Ledger — Bank Statement Classifier</title>
+    <script>
+      // Set the theme before the first paint so there's no flash of the wrong theme while
+      // the React bundle is still loading - mirrors the logic in src/theme.js.
+      ;(function () {
+        var stored = localStorage.getItem('theme')
+        var theme = stored === 'light' || stored === 'dark'
+          ? stored
+          : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        document.documentElement.dataset.theme = theme
+      })()
+    </script>
+    <style>
+      /* Inline on purpose: this has to render before any external CSS/JS has loaded, so a
+         cold free-tier backend still shows something right away instead of a blank page
+         while it wakes up. React replaces #root's contents the moment it mounts, which
+         clears this automatically. Colors are duplicated (not read from index.css) because
+         that stylesheet hasn't loaded yet either at this point. */
+      :root[data-theme='dark'] {
+        --boot-bg: #101917;
+        --boot-ink: #f0efec;
+        --boot-muted: #a8a29e;
+        --boot-ring: rgba(45, 212, 191, 0.25);
+        --boot-accent: #2dd4bf;
+      }
+      :root[data-theme='light'] {
+        --boot-bg: #faf9f6;
+        --boot-ink: #1c1917;
+        --boot-muted: #57534e;
+        --boot-ring: rgba(15, 118, 110, 0.18);
+        --boot-accent: #0f766e;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, 'Segoe UI', sans-serif;
+        background: var(--boot-bg);
+        color: var(--boot-ink);
+      }
+      /* The centering lives on .boot-screen, NOT on body: React only replaces #root's
+         contents, so any layout set on body here would survive the mount and keep
+         applying to the real app. (It previously did - body's flex centering made
+         #root a shrink-to-fit flex item, so the whole app visibly narrowed as soon as
+         content loaded.) */
+      .boot-screen {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+      }
+      .boot-screen > * {
+        max-width: 26rem;
+      }
+      .boot-spinner {
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 1.1rem;
+        border-radius: 50%;
+        border: 3px solid var(--boot-ring);
+        border-top-color: var(--boot-accent);
+        animation: boot-spin 0.8s linear infinite;
+      }
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .boot-screen p {
+        margin: 0.3rem 0 0;
+        font-size: 0.9rem;
+        color: var(--boot-muted);
+        line-height: 1.5;
+      }
+      #boot-wait {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-screen">
+        <div class="boot-spinner"></div>
+        <p>Loading Ledger…</p>
+        <p id="boot-wait">Loading is taking longer than expected. Please check your connection and refresh the page.</p>
+      </div>
+    </div>
+    <script>
+      // Only mention the free-tier wake-up delay if it's actually taking a while,
+      // so a normal warm load just sees the spinner for a moment, not a caveat.
+      setTimeout(function () {
+        var el = document.getElementById('boot-wait')
+        if (el) el.style.display = 'block'
+      }, 4000)
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
