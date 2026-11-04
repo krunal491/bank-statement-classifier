@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+models/
+data/user_corrections.csv
+.DS_Store
+*.xlsx
+!samples/*.xlsx
+
+# frontend
+frontend/node_modules/
+frontend/dist/
