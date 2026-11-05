@@ -80,19 +80,6 @@ flowchart LR
 
 **Categories:** Salary, Food & Dining, Groceries, Shopping, Transport & Fuel, Travel, Bills & Utilities, Entertainment & Subscriptions, Healthcare, Education, Investments, Insurance, Rent, EMI & Loans, ATM Withdrawal, Transfers, Bank Charges, Interest, Refunds & Cashback, Taxes, Others.
 
-### Results on the sample statements
-
-| Sample | PDF type | Transactions | Balance check |
-|---|---|---|---|
-| SBI, HDFC, ICICI, Axis, Kotak | text | 47–54 each | **100 %** |
-| Axis (password protected) | text | 54 | **100 %** |
-| ICICI (page 1 text, rest scanned) | mixed | 53 | **100 %** |
-| HDFC scanned | image | 47 | **100 %** |
-| SBI scanned | image | 48 | 97.9 % (1 OCR digit misread – flagged for review) |
-
-ML model (run `python -m scripts.generate_training_data`): ~99 % on a held-out test split of the synthetic data, and **8 / 10 on merchants the model has never seen** (e.g. *Cafe Coffee Day*, *Wellness Pharmacy*, *Essar Petrol Pump*). The second number is the honest one – synthetic data is easier than real life, which is why rules come first and users can correct the model.
-
----
 
 ## 🛠 Tech stack
 
